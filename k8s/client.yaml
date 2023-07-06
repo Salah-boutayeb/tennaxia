@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: client-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: web
+    template:
+        metadata:
+            labels:
+                component: web
+        spec:
+            containers:
+                - name: client
+                  image: salaheddine10/tennaxia-front:V1.0
+                  ports:
+                      - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: client-cluster-ip-service
+spec:
+    type: LoadBalancer
+    selector:
+        component: web
+    ports:
+        - port: 8086
+          targetPort: 80
